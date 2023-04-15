@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"surasithit/gin-graphql-server/adapters/graphql"
 	"surasithit/gin-graphql-server/adapters/httpserver"
 	"syscall"
 	"time"
@@ -41,9 +42,14 @@ func Start() error {
 func initialApp(router *gin.Engine, config *Config) {
 	rGroup := router.Group(config.HttpServer.Prefix)
 
-	rGroup.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
+	rGroup.GET("/health", healthCheck)
+
+	rGroup.POST("/query", graphql.GraphqlHandler())
+	rGroup.GET("/", graphql.PlaygroundHandler())
+}
+
+func healthCheck(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "OK",
 	})
 }
