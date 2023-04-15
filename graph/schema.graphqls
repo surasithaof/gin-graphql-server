@@ -35,7 +35,7 @@ type Mutation {
   updateTeam(id: ID!, input: TeamInput!): Team
   deleteTeam(id: ID!): Boolean!
 
-  createPlayer(intpu: PlayerInput!): Player
+  createPlayer(input: PlayerInput!): Player
   updatePlayer(id: ID!, input: PlayerInput!): Player
   deletePlayer(id: ID!): Boolean!
 }

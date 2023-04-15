@@ -46,7 +46,7 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		CreatePlayer func(childComplexity int, intpu model.PlayerInput) int
+		CreatePlayer func(childComplexity int, input model.PlayerInput) int
 		CreateTeam   func(childComplexity int, input model.TeamInput) int
 		DeletePlayer func(childComplexity int, id string) int
 		DeleteTeam   func(childComplexity int, id string) int
@@ -80,7 +80,7 @@ type MutationResolver interface {
 	CreateTeam(ctx context.Context, input model.TeamInput) (*model.Team, error)
 	UpdateTeam(ctx context.Context, id string, input model.TeamInput) (*model.Team, error)
 	DeleteTeam(ctx context.Context, id string) (bool, error)
-	CreatePlayer(ctx context.Context, intpu model.PlayerInput) (*model.Player, error)
+	CreatePlayer(ctx context.Context, input model.PlayerInput) (*model.Player, error)
 	UpdatePlayer(ctx context.Context, id string, input model.PlayerInput) (*model.Player, error)
 	DeletePlayer(ctx context.Context, id string) (bool, error)
 }
@@ -116,7 +116,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreatePlayer(childComplexity, args["intpu"].(model.PlayerInput)), true
+		return e.complexity.Mutation.CreatePlayer(childComplexity, args["input"].(model.PlayerInput)), true
 
 	case "Mutation.createTeam":
 		if e.complexity.Mutation.CreateTeam == nil {
@@ -365,14 +365,14 @@ func (ec *executionContext) field_Mutation_createPlayer_args(ctx context.Context
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.PlayerInput
-	if tmp, ok := rawArgs["intpu"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("intpu"))
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNPlayerInput2surasithitᚋginᚑgraphqlᚑserverᚋgraphᚋmodelᚐPlayerInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["intpu"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -745,7 +745,7 @@ func (ec *executionContext) _Mutation_createPlayer(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreatePlayer(rctx, fc.Args["intpu"].(model.PlayerInput))
+		return ec.resolvers.Mutation().CreatePlayer(rctx, fc.Args["input"].(model.PlayerInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)

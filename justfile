@@ -11,12 +11,12 @@ test:
     go test .../.
 
 gql-install:
-    go get github.com/99designs/gqlgen
+    go get -u github.com/99designs/gqlgen
 
 gql-init:
     go run github.com/99designs/gqlgen init
 
-gql-generate:
+gql-gen:
     go run github.com/99designs/gqlgen generate
 
 env name:

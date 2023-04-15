@@ -1,17 +1,22 @@
 package graph
 
-import "gorm.io/gorm"
+import (
+	"surasithit/gin-graphql-server/players"
+	"surasithit/gin-graphql-server/teams"
+)
 
 // This file will not be regenerated automatically.
 //
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	Database *gorm.DB
+	PlayerService players.Service
+	TeamService   teams.Service
 }
 
-func Initialize(database *gorm.DB) *Resolver {
+func Initialize(playerService players.Service, teamService teams.Service) *Resolver {
 	return &Resolver{
-		Database: database,
+		PlayerService: playerService,
+		TeamService:   teamService,
 	}
 }
