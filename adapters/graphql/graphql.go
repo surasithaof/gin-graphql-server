@@ -1,17 +1,17 @@
 package graphql
 
 import (
-	"surasithit/gin-graphql-server/adapters/db"
 	"surasithit/gin-graphql-server/graph"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 var resolver *graph.Resolver
 
-func Initialize(database *db.Database) {
+func Initialize(database *gorm.DB) {
 	resolver = &graph.Resolver{
 		Database: database,
 	}

@@ -1,16 +1,16 @@
 package graph
 
-import "surasithit/gin-graphql-server/adapters/db"
+import "gorm.io/gorm"
 
 // This file will not be regenerated automatically.
 //
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	Database *db.Database
+	Database *gorm.DB
 }
 
-func Initialize(database *db.Database) *Resolver {
+func Initialize(database *gorm.DB) *Resolver {
 	return &Resolver{
 		Database: database,
 	}

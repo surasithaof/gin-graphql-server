@@ -45,7 +45,7 @@ func initialApp(router *gin.Engine, config *Config) {
 
 	rGroup.GET("/health", healthCheck)
 
-	database := db.Connect()
+	database := db.Connect(config.Database)
 	graphql.Initialize(database)
 
 	rGroup.POST("/query", graphql.GraphqlHandler())
