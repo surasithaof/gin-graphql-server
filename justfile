@@ -1,5 +1,5 @@
 set dotenv-load := true
-
+set export
 
 run:
     go run cmd/main.go
@@ -24,3 +24,18 @@ env name:
 
 envcreate name:
     cp .env.example .env.{{name}}
+
+db-install-migrate:
+    brew install golang-migrate
+
+db-create-migrate name:
+    migrate create -ext sql -dir migrations -seq {{name}}
+
+db-migrate:
+    migrate -database ${DB_CONN} -path migrations up
+
+db-rollback:
+    migrate -database ${DB_CONN} -path migrations down
+
+db-migration-force version:
+    migrate -database ${DB_CONN} -path migrations force {{version}}
