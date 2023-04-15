@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"surasithit/gin-graphql-server/adapters/db"
 	"surasithit/gin-graphql-server/adapters/graphql"
 	"surasithit/gin-graphql-server/adapters/httpserver"
 	"syscall"
@@ -43,6 +44,9 @@ func initialApp(router *gin.Engine, config *Config) {
 	rGroup := router.Group(config.HttpServer.Prefix)
 
 	rGroup.GET("/health", healthCheck)
+
+	database := db.Connect()
+	graphql.Initialize(database)
 
 	rGroup.POST("/query", graphql.GraphqlHandler())
 	rGroup.GET("/", graphql.PlaygroundHandler())

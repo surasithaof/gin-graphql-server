@@ -1,6 +1,7 @@
 package graphql
 
 import (
+	"surasithit/gin-graphql-server/adapters/db"
 	"surasithit/gin-graphql-server/graph"
 
 	"github.com/99designs/gqlgen/graphql/handler"
@@ -8,11 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var resolver *graph.Resolver
+
+func Initialize(database *db.Database) {
+	resolver = &graph.Resolver{
+		Database: database,
+	}
+}
+
 // Defining the Graphql handler
 func GraphqlHandler() gin.HandlerFunc {
 	// NewExecutableSchema and Config are in the generated.go file
 	// Resolver is in the resolver.go file
-	h := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	h := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: resolver}))
 
 	return func(c *gin.Context) {
 		h.ServeHTTP(c.Writer, c.Request)
