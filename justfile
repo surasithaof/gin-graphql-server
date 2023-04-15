@@ -18,3 +18,9 @@ gql-init:
 
 gql-generate:
     go run github.com/99designs/gqlgen generate
+
+env name:
+	ln -sf .env.{{name}} .env
+
+envcreate name:
+    cp .env.example .env.{{name}}
