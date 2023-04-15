@@ -10,14 +10,54 @@ import (
 	"surasithit/gin-graphql-server/graph/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// CreateTeam is the resolver for the createTeam field.
+func (r *mutationResolver) CreateTeam(ctx context.Context, input model.TeamInput) (*model.Team, error) {
+	panic(fmt.Errorf("not implemented: CreateTeam - createTeam"))
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// UpdateTeam is the resolver for the updateTeam field.
+func (r *mutationResolver) UpdateTeam(ctx context.Context, id string, input model.TeamInput) (*model.Team, error) {
+	panic(fmt.Errorf("not implemented: UpdateTeam - updateTeam"))
+}
+
+// DeleteTeam is the resolver for the deleteTeam field.
+func (r *mutationResolver) DeleteTeam(ctx context.Context, id string) (bool, error) {
+	panic(fmt.Errorf("not implemented: DeleteTeam - deleteTeam"))
+}
+
+// CreatePlayer is the resolver for the createPlayer field.
+func (r *mutationResolver) CreatePlayer(ctx context.Context, intpu model.PlayerInput) (*model.Player, error) {
+	panic(fmt.Errorf("not implemented: CreatePlayer - createPlayer"))
+}
+
+// UpdatePlayer is the resolver for the updatePlayer field.
+func (r *mutationResolver) UpdatePlayer(ctx context.Context, id string, input model.PlayerInput) (*model.Player, error) {
+	panic(fmt.Errorf("not implemented: UpdatePlayer - updatePlayer"))
+}
+
+// DeletePlayer is the resolver for the deletePlayer field.
+func (r *mutationResolver) DeletePlayer(ctx context.Context, id string) (bool, error) {
+	panic(fmt.Errorf("not implemented: DeletePlayer - deletePlayer"))
+}
+
+// Team is the resolver for the team field.
+func (r *queryResolver) Team(ctx context.Context, id string) (*model.Team, error) {
+	panic(fmt.Errorf("not implemented: Team - team"))
+}
+
+// Teams is the resolver for the teams field.
+func (r *queryResolver) Teams(ctx context.Context) ([]*model.Team, error) {
+	panic(fmt.Errorf("not implemented: Teams - teams"))
+}
+
+// Player is the resolver for the player field.
+func (r *queryResolver) Player(ctx context.Context, id string) (*model.Player, error) {
+	panic(fmt.Errorf("not implemented: Player - player"))
+}
+
+// Players is the resolver for the players field.
+func (r *queryResolver) Players(ctx context.Context) ([]*model.Player, error) {
+	panic(fmt.Errorf("not implemented: Players - players"))
 }
 
 // Mutation returns MutationResolver implementation.
