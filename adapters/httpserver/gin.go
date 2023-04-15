@@ -15,7 +15,7 @@ var server *http.Server
 var config Config
 
 type Config struct {
-	Mode string `envconfig:"HTTP_MODE" default:"debug"`
+	Mode string `envconfig:"HTTP_MODE" default:"production"`
 
 	Port   int    `envconfig:"HTTP_PORT" default:"3000"`
 	Prefix string `envconfig:"HTTP_PATH_PREFIX" default:""`
@@ -36,6 +36,7 @@ func InitGin(_config Config) *gin.Engine {
 	router = gin.New()
 
 	router.Use(
+		gin.Logger(),
 		gin.Recovery(),
 		CORSMiddleware(config),
 	)

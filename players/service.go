@@ -32,7 +32,7 @@ func (s *Service) Create(ctx context.Context, player *model.Player) (*model.Play
 // Delete implements Store
 func (s *Service) Delete(ctx context.Context, id int) error {
 	player := &model.Player{}
-	tx := s.DB.WithContext(ctx).Delete(player, id)
+	tx := s.DB.WithContext(ctx).Delete(&player, id)
 	if tx.Error != nil {
 		return tx.Error
 	}
@@ -42,7 +42,17 @@ func (s *Service) Delete(ctx context.Context, id int) error {
 // FindAll implements Store
 func (s *Service) FindAll(ctx context.Context) ([]*model.Player, error) {
 	players := []*model.Player{}
-	tx := s.DB.WithContext(ctx).Find(players)
+	tx := s.DB.WithContext(ctx).Find(&players)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return players, nil
+}
+
+// FindByTeamId implements Store
+func (s *Service) FindByTeamId(ctx context.Context, teamId int) ([]*model.Player, error) {
+	players := []*model.Player{}
+	tx := s.DB.WithContext(ctx).Where("team_id = ?", teamId).Find(&players)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
@@ -52,7 +62,7 @@ func (s *Service) FindAll(ctx context.Context) ([]*model.Player, error) {
 // FindOne implements Store
 func (s *Service) FindOne(ctx context.Context, id int) (*model.Player, error) {
 	player := &model.Player{}
-	tx := s.DB.WithContext(ctx).Where("id = ?", id).First(player)
+	tx := s.DB.WithContext(ctx).Where("id = ?", id).First(&player)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
@@ -71,7 +81,7 @@ func (s *Service) Update(ctx context.Context, id int, player *model.Player) (*mo
 		Rating: player.Rating,
 		TeamID: player.TeamID,
 	}
-	tx := s.DB.WithContext(ctx).Save(updatePlayer)
+	tx := s.DB.WithContext(ctx).Save(&updatePlayer)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

@@ -32,7 +32,7 @@ func (s *Service) Create(ctx context.Context, team *model.Team) (*model.Team, er
 // Delete implements Store
 func (s *Service) Delete(ctx context.Context, id int) error {
 	team := &model.Team{}
-	tx := s.DB.WithContext(ctx).Delete(team, id)
+	tx := s.DB.WithContext(ctx).Delete(&team, id)
 	if tx.Error != nil {
 		return tx.Error
 	}
@@ -42,7 +42,7 @@ func (s *Service) Delete(ctx context.Context, id int) error {
 // FindAll implements Store
 func (s *Service) FindAll(ctx context.Context) ([]*model.Team, error) {
 	teams := []*model.Team{}
-	tx := s.DB.WithContext(ctx).Find(teams)
+	tx := s.DB.WithContext(ctx).Find(&teams)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
@@ -52,7 +52,7 @@ func (s *Service) FindAll(ctx context.Context) ([]*model.Team, error) {
 // FindOne implements Store
 func (s *Service) FindOne(ctx context.Context, id int) (*model.Team, error) {
 	team := &model.Team{}
-	tx := s.DB.WithContext(ctx).Where("id = ?", id).First(team)
+	tx := s.DB.WithContext(ctx).Where("id = ?", id).First(&team)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
@@ -70,7 +70,7 @@ func (s *Service) Update(ctx context.Context, id int, team *model.Team) (*model.
 		Name:    team.Name,
 		Country: team.Country,
 	}
-	tx := s.DB.WithContext(ctx).Save(updateTeam)
+	tx := s.DB.WithContext(ctx).Save(&updateTeam)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

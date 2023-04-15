@@ -23,7 +23,7 @@ func (r *mutationResolver) CreateTeam(ctx context.Context, input model.TeamInput
 		return nil, err
 	}
 	return &model.Team{
-		ID:      team.ID,
+		ID:      strconv.Itoa(team.ID),
 		Name:    team.Name,
 		Country: team.Country,
 	}, nil
@@ -44,7 +44,7 @@ func (r *mutationResolver) UpdateTeam(ctx context.Context, id string, input mode
 		return nil, err
 	}
 	return &model.Team{
-		ID:      team.ID,
+		ID:      strconv.Itoa(team.ID),
 		Name:    team.Name,
 		Country: team.Country,
 	}, nil
@@ -79,7 +79,7 @@ func (r *mutationResolver) CreatePlayer(ctx context.Context, input model.PlayerI
 		return nil, err
 	}
 	return &model.Player{
-		ID:     player.ID,
+		ID:     strconv.Itoa(player.ID),
 		Name:   player.Name,
 		Rating: player.Rating,
 	}, nil
@@ -105,7 +105,7 @@ func (r *mutationResolver) UpdatePlayer(ctx context.Context, id string, input mo
 		return nil, err
 	}
 	return &model.Player{
-		ID:     player.ID,
+		ID:     strconv.Itoa(player.ID),
 		Name:   player.Name,
 		Rating: player.Rating,
 	}, nil
@@ -134,10 +134,23 @@ func (r *queryResolver) Team(ctx context.Context, id string) (*model.Team, error
 	if err != nil {
 		return nil, err
 	}
+	players, err := r.PlayerService.FindByTeamId(ctx, team.ID)
+	if err != nil {
+		return nil, err
+	}
+	_players := []*model.Player{}
+	for _, p := range players {
+		_players = append(_players, &model.Player{
+			ID:     strconv.Itoa(p.ID),
+			Name:   p.Name,
+			Rating: p.Rating,
+		})
+	}
 	return &model.Team{
-		ID:      team.ID,
+		ID:      strconv.Itoa(team.ID),
 		Name:    team.Name,
 		Country: team.Country,
+		Players: _players,
 	}, nil
 }
 
@@ -149,10 +162,23 @@ func (r *queryResolver) Teams(ctx context.Context) ([]*model.Team, error) {
 	}
 	teamsRes := []*model.Team{}
 	for _, t := range teams {
+		players, err := r.PlayerService.FindByTeamId(ctx, t.ID)
+		if err != nil {
+			return nil, err
+		}
+		_players := []*model.Player{}
+		for _, p := range players {
+			_players = append(_players, &model.Player{
+				ID:     strconv.Itoa(p.ID),
+				Name:   p.Name,
+				Rating: p.Rating,
+			})
+		}
 		teamsRes = append(teamsRes, &model.Team{
-			ID:      t.ID,
+			ID:      strconv.Itoa(t.ID),
 			Name:    t.Name,
 			Country: t.Country,
+			Players: _players,
 		})
 	}
 	return teamsRes, nil
@@ -168,10 +194,19 @@ func (r *queryResolver) Player(ctx context.Context, id string) (*model.Player, e
 	if err != nil {
 		return nil, err
 	}
+	team, err := r.TeamService.FindOne(ctx, player.TeamID)
+	if err != nil {
+		return nil, err
+	}
 	return &model.Player{
-		ID:     player.ID,
+		ID:     strconv.Itoa(player.ID),
 		Name:   player.Name,
 		Rating: player.Rating,
+		Team: &model.Team{
+			ID:      strconv.Itoa(team.ID),
+			Name:    team.Name,
+			Country: team.Country,
+		},
 	}, nil
 }
 
@@ -182,11 +217,20 @@ func (r *queryResolver) Players(ctx context.Context) ([]*model.Player, error) {
 		return nil, err
 	}
 	playersRes := []*model.Player{}
-	for _, t := range players {
+	for _, p := range players {
+		team, err := r.TeamService.FindOne(ctx, p.TeamID)
+		if err != nil {
+			return nil, err
+		}
 		playersRes = append(playersRes, &model.Player{
-			ID:     t.ID,
-			Name:   t.Name,
-			Rating: t.Rating,
+			ID:     strconv.Itoa(p.ID),
+			Name:   p.Name,
+			Rating: p.Rating,
+			Team: &model.Team{
+				ID:      strconv.Itoa(team.ID),
+				Name:    team.Name,
+				Country: team.Country,
+			},
 		})
 	}
 	return playersRes, nil
