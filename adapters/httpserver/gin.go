@@ -15,7 +15,7 @@ var server *http.Server
 var config Config
 
 type Config struct {
-	Mode string `envconfig:"HTTP_MODE" default:"production"`
+	Mode string `envconfig:"HTTP_MODE" default:"debug"`
 
 	Port   int    `envconfig:"HTTP_PORT" default:"3000"`
 	Prefix string `envconfig:"HTTP_PATH_PREFIX" default:""`
@@ -51,6 +51,7 @@ func Run() *http.Server {
 		Addr:    fmt.Sprintf(":%d", config.Port),
 		Handler: router,
 	}
+	fmt.Printf("Server is running on port: %s\n", server.Addr)
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && errors.Is(err, http.ErrServerClosed) {

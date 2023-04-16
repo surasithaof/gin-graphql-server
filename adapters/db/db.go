@@ -8,10 +8,14 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+
+	playerModel "surasithit/gin-graphql-server/players/model"
+	teamModel "surasithit/gin-graphql-server/teams/model"
 )
 
 type Config struct {
-	Connection string `envconfig:"DB_CONN"`
+	Connection  string `envconfig:"DB_CONN" required:"true"`
+	AutoMigrate bool   `envconfig:"DB_AUTO_MIGRATE" default:"false"`
 }
 
 func Connect(dbConfig Config) *gorm.DB {
@@ -32,10 +36,16 @@ func Connect(dbConfig Config) *gorm.DB {
 	db, err := gorm.Open(postgres.Open(dbConfig.Connection), &gorm.Config{
 		Logger: newLogger,
 	})
-	// db.Logger = logger.Default.LogMode(logger.Info)
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate()
+
+	if dbConfig.AutoMigrate {
+		db.AutoMigrate(
+			&teamModel.Team{},
+			&playerModel.Player{},
+		)
+	}
+
 	return db
 }
