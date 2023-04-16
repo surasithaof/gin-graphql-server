@@ -2,19 +2,27 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type Player struct {
+	ID     string  `json:"id"`
+	Name   string  `json:"name"`
+	Rating float64 `json:"rating"`
+	Team   *Team   `json:"team"`
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+type PlayerInput struct {
+	Name   string  `json:"name"`
+	Rating float64 `json:"rating"`
+	TeamID string  `json:"teamId"`
 }
 
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type Team struct {
+	ID      string    `json:"id"`
+	Name    string    `json:"name"`
+	Country string    `json:"country"`
+	Players []*Player `json:"players"`
+}
+
+type TeamInput struct {
+	Name    string `json:"name"`
+	Country string `json:"country"`
 }

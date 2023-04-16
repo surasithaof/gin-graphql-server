@@ -36,6 +36,7 @@ func InitGin(_config Config) *gin.Engine {
 	router = gin.New()
 
 	router.Use(
+		gin.Logger(),
 		gin.Recovery(),
 		CORSMiddleware(config),
 	)
@@ -50,6 +51,7 @@ func Run() *http.Server {
 		Addr:    fmt.Sprintf(":%d", config.Port),
 		Handler: router,
 	}
+	fmt.Printf("Server is running on port: %s\n", server.Addr)
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && errors.Is(err, http.ErrServerClosed) {

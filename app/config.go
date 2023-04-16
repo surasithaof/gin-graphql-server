@@ -2,6 +2,7 @@ package app
 
 import (
 	"log"
+	"surasithit/gin-graphql-server/adapters/db"
 	"surasithit/gin-graphql-server/adapters/httpserver"
 
 	"github.com/kelseyhightower/envconfig"
@@ -9,6 +10,7 @@ import (
 
 type Config struct {
 	HttpServer httpserver.Config
+	Database   db.Config
 }
 
 func LoadConfig() (*Config, error) {

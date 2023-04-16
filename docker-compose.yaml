@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:14.1-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: "gql_example"
+      POSTGRES_USER: "gql_example"
+      POSTGRES_PASSWORD: "gql_example"
+      POSTGRES_PORT: 5432

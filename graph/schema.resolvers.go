@@ -6,18 +6,234 @@ package graph
 
 import (
 	"context"
-	"fmt"
+	"strconv"
 	"surasithit/gin-graphql-server/graph/model"
+	playerModel "surasithit/gin-graphql-server/players/model"
+	teamModel "surasithit/gin-graphql-server/teams/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// CreateTeam is the resolver for the createTeam field.
+func (r *mutationResolver) CreateTeam(ctx context.Context, input model.TeamInput) (*model.Team, error) {
+	newTeam := &teamModel.Team{
+		Name:    input.Name,
+		Country: input.Country,
+	}
+	team, err := r.TeamService.Create(ctx, newTeam)
+	if err != nil {
+		return nil, err
+	}
+	return &model.Team{
+		ID:      strconv.Itoa(team.ID),
+		Name:    team.Name,
+		Country: team.Country,
+	}, nil
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// UpdateTeam is the resolver for the updateTeam field.
+func (r *mutationResolver) UpdateTeam(ctx context.Context, id string, input model.TeamInput) (*model.Team, error) {
+	updateTeam := &teamModel.Team{
+		Name:    input.Name,
+		Country: input.Country,
+	}
+	_id, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+	team, err := r.TeamService.Update(ctx, _id, updateTeam)
+	if err != nil {
+		return nil, err
+	}
+	return &model.Team{
+		ID:      strconv.Itoa(team.ID),
+		Name:    team.Name,
+		Country: team.Country,
+	}, nil
+}
+
+// DeleteTeam is the resolver for the deleteTeam field.
+func (r *mutationResolver) DeleteTeam(ctx context.Context, id string) (bool, error) {
+	_id, err := strconv.Atoi(id)
+	if err != nil {
+		return false, err
+	}
+	err = r.TeamService.Delete(ctx, _id)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+// CreatePlayer is the resolver for the createPlayer field.
+func (r *mutationResolver) CreatePlayer(ctx context.Context, input model.PlayerInput) (*model.Player, error) {
+	teamId, err := strconv.Atoi(input.TeamID)
+	if err != nil {
+		return nil, err
+	}
+	newPlayer := &playerModel.Player{
+		Name:   input.Name,
+		Rating: input.Rating,
+		TeamID: teamId,
+	}
+	player, err := r.PlayerService.Create(ctx, newPlayer)
+	if err != nil {
+		return nil, err
+	}
+	return &model.Player{
+		ID:     strconv.Itoa(player.ID),
+		Name:   player.Name,
+		Rating: player.Rating,
+	}, nil
+}
+
+// UpdatePlayer is the resolver for the updatePlayer field.
+func (r *mutationResolver) UpdatePlayer(ctx context.Context, id string, input model.PlayerInput) (*model.Player, error) {
+	_id, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+	teamId, err := strconv.Atoi(input.TeamID)
+	if err != nil {
+		return nil, err
+	}
+	updatePlayer := &playerModel.Player{
+		Name:   input.Name,
+		Rating: input.Rating,
+		TeamID: teamId,
+	}
+	player, err := r.PlayerService.Update(ctx, _id, updatePlayer)
+	if err != nil {
+		return nil, err
+	}
+	return &model.Player{
+		ID:     strconv.Itoa(player.ID),
+		Name:   player.Name,
+		Rating: player.Rating,
+	}, nil
+}
+
+// DeletePlayer is the resolver for the deletePlayer field.
+func (r *mutationResolver) DeletePlayer(ctx context.Context, id string) (bool, error) {
+	_id, err := strconv.Atoi(id)
+	if err != nil {
+		return false, err
+	}
+	err = r.PlayerService.Delete(ctx, _id)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+// Team is the resolver for the team field.
+func (r *queryResolver) Team(ctx context.Context, id string) (*model.Team, error) {
+	_id, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+	team, err := r.TeamService.FindOne(ctx, _id)
+	if err != nil {
+		return nil, err
+	}
+	players, err := r.PlayerService.FindByTeamId(ctx, team.ID)
+	if err != nil {
+		return nil, err
+	}
+	_players := []*model.Player{}
+	for _, p := range players {
+		_players = append(_players, &model.Player{
+			ID:     strconv.Itoa(p.ID),
+			Name:   p.Name,
+			Rating: p.Rating,
+		})
+	}
+	return &model.Team{
+		ID:      strconv.Itoa(team.ID),
+		Name:    team.Name,
+		Country: team.Country,
+		Players: _players,
+	}, nil
+}
+
+// Teams is the resolver for the teams field.
+func (r *queryResolver) Teams(ctx context.Context) ([]*model.Team, error) {
+	teams, err := r.TeamService.FindAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	teamsRes := []*model.Team{}
+	for _, t := range teams {
+		players, err := r.PlayerService.FindByTeamId(ctx, t.ID)
+		if err != nil {
+			return nil, err
+		}
+		_players := []*model.Player{}
+		for _, p := range players {
+			_players = append(_players, &model.Player{
+				ID:     strconv.Itoa(p.ID),
+				Name:   p.Name,
+				Rating: p.Rating,
+			})
+		}
+		teamsRes = append(teamsRes, &model.Team{
+			ID:      strconv.Itoa(t.ID),
+			Name:    t.Name,
+			Country: t.Country,
+			Players: _players,
+		})
+	}
+	return teamsRes, nil
+}
+
+// Player is the resolver for the player field.
+func (r *queryResolver) Player(ctx context.Context, id string) (*model.Player, error) {
+	_id, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+	player, err := r.PlayerService.FindOne(ctx, _id)
+	if err != nil {
+		return nil, err
+	}
+	team, err := r.TeamService.FindOne(ctx, player.TeamID)
+	if err != nil {
+		return nil, err
+	}
+	return &model.Player{
+		ID:     strconv.Itoa(player.ID),
+		Name:   player.Name,
+		Rating: player.Rating,
+		Team: &model.Team{
+			ID:      strconv.Itoa(team.ID),
+			Name:    team.Name,
+			Country: team.Country,
+		},
+	}, nil
+}
+
+// Players is the resolver for the players field.
+func (r *queryResolver) Players(ctx context.Context) ([]*model.Player, error) {
+	players, err := r.PlayerService.FindAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	playersRes := []*model.Player{}
+	for _, p := range players {
+		team, err := r.TeamService.FindOne(ctx, p.TeamID)
+		if err != nil {
+			return nil, err
+		}
+		playersRes = append(playersRes, &model.Player{
+			ID:     strconv.Itoa(p.ID),
+			Name:   p.Name,
+			Rating: p.Rating,
+			Team: &model.Team{
+				ID:      strconv.Itoa(team.ID),
+				Name:    team.Name,
+				Country: team.Country,
+			},
+		})
+	}
+	return playersRes, nil
 }
 
 // Mutation returns MutationResolver implementation.

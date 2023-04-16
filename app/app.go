@@ -6,8 +6,12 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"surasithit/gin-graphql-server/adapters/db"
 	"surasithit/gin-graphql-server/adapters/graphql"
 	"surasithit/gin-graphql-server/adapters/httpserver"
+	"surasithit/gin-graphql-server/graph"
+	"surasithit/gin-graphql-server/players"
+	"surasithit/gin-graphql-server/teams"
 	"syscall"
 	"time"
 
@@ -44,8 +48,13 @@ func initialApp(router *gin.Engine, config *Config) {
 
 	rGroup.GET("/health", healthCheck)
 
-	rGroup.POST("/query", graphql.GraphqlHandler())
-	rGroup.GET("/", graphql.PlaygroundHandler())
+	database := db.Connect(config.Database)
+	playerService := players.Initialize(database)
+	teamService := teams.Initialize(database)
+	gqlResolver := graph.Initialize(playerService, teamService)
+
+	rGroup.POST("/query", graphql.GraphqlHandler(gqlResolver))
+	rGroup.GET("/", graphql.PlaygroundHandler(config.HttpServer.Prefix))
 }
 
 func healthCheck(c *gin.Context) {
