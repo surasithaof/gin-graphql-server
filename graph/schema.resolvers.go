@@ -18,7 +18,7 @@ func (r *mutationResolver) CreateTeam(ctx context.Context, input model.TeamInput
 		Name:    input.Name,
 		Country: input.Country,
 	}
-	team, err := r.TeamService.Create(ctx, newTeam)
+	team, err := r.TeamStore.Create(ctx, newTeam)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (r *mutationResolver) UpdateTeam(ctx context.Context, id string, input mode
 	if err != nil {
 		return nil, err
 	}
-	team, err := r.TeamService.Update(ctx, _id, updateTeam)
+	team, err := r.TeamStore.Update(ctx, _id, updateTeam)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (r *mutationResolver) DeleteTeam(ctx context.Context, id string) (bool, err
 	if err != nil {
 		return false, err
 	}
-	err = r.TeamService.Delete(ctx, _id)
+	err = r.TeamStore.Delete(ctx, _id)
 	if err != nil {
 		return false, err
 	}
@@ -74,7 +74,7 @@ func (r *mutationResolver) CreatePlayer(ctx context.Context, input model.PlayerI
 		Rating: input.Rating,
 		TeamID: teamId,
 	}
-	player, err := r.PlayerService.Create(ctx, newPlayer)
+	player, err := r.PlayerStore.Create(ctx, newPlayer)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +100,7 @@ func (r *mutationResolver) UpdatePlayer(ctx context.Context, id string, input mo
 		Rating: input.Rating,
 		TeamID: teamId,
 	}
-	player, err := r.PlayerService.Update(ctx, _id, updatePlayer)
+	player, err := r.PlayerStore.Update(ctx, _id, updatePlayer)
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +117,7 @@ func (r *mutationResolver) DeletePlayer(ctx context.Context, id string) (bool, e
 	if err != nil {
 		return false, err
 	}
-	err = r.PlayerService.Delete(ctx, _id)
+	err = r.PlayerStore.Delete(ctx, _id)
 	if err != nil {
 		return false, err
 	}
@@ -130,11 +130,11 @@ func (r *queryResolver) Team(ctx context.Context, id string) (*model.Team, error
 	if err != nil {
 		return nil, err
 	}
-	team, err := r.TeamService.FindOne(ctx, _id)
+	team, err := r.TeamStore.FindOne(ctx, _id)
 	if err != nil {
 		return nil, err
 	}
-	players, err := r.PlayerService.FindByTeamId(ctx, team.ID)
+	players, err := r.PlayerStore.FindByTeamId(ctx, team.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -156,13 +156,13 @@ func (r *queryResolver) Team(ctx context.Context, id string) (*model.Team, error
 
 // Teams is the resolver for the teams field.
 func (r *queryResolver) Teams(ctx context.Context) ([]*model.Team, error) {
-	teams, err := r.TeamService.FindAll(ctx)
+	teams, err := r.TeamStore.FindAll(ctx)
 	if err != nil {
 		return nil, err
 	}
 	teamsRes := []*model.Team{}
 	for _, t := range teams {
-		players, err := r.PlayerService.FindByTeamId(ctx, t.ID)
+		players, err := r.PlayerStore.FindByTeamId(ctx, t.ID)
 		if err != nil {
 			return nil, err
 		}
@@ -190,11 +190,11 @@ func (r *queryResolver) Player(ctx context.Context, id string) (*model.Player, e
 	if err != nil {
 		return nil, err
 	}
-	player, err := r.PlayerService.FindOne(ctx, _id)
+	player, err := r.PlayerStore.FindOne(ctx, _id)
 	if err != nil {
 		return nil, err
 	}
-	team, err := r.TeamService.FindOne(ctx, player.TeamID)
+	team, err := r.TeamStore.FindOne(ctx, player.TeamID)
 	if err != nil {
 		return nil, err
 	}
@@ -212,13 +212,13 @@ func (r *queryResolver) Player(ctx context.Context, id string) (*model.Player, e
 
 // Players is the resolver for the players field.
 func (r *queryResolver) Players(ctx context.Context) ([]*model.Player, error) {
-	players, err := r.PlayerService.FindAll(ctx)
+	players, err := r.PlayerStore.FindAll(ctx)
 	if err != nil {
 		return nil, err
 	}
 	playersRes := []*model.Player{}
 	for _, p := range players {
-		team, err := r.TeamService.FindOne(ctx, p.TeamID)
+		team, err := r.TeamStore.FindOne(ctx, p.TeamID)
 		if err != nil {
 			return nil, err
 		}

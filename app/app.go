@@ -49,9 +49,9 @@ func initialApp(router *gin.Engine, config *Config) {
 	rGroup.GET("/health", healthCheck)
 
 	database := db.Connect(config.Database)
-	playerService := players.Initialize(database)
-	teamService := teams.Initialize(database)
-	gqlResolver := graph.Initialize(playerService, teamService)
+	playerStore := players.Initialize(database)
+	teamStore := teams.Initialize(database)
+	gqlResolver := graph.Initialize(playerStore, teamStore)
 
 	rGroup.POST("/query", graphql.GraphqlHandler(gqlResolver))
 	rGroup.GET("/", graphql.PlaygroundHandler(config.HttpServer.Prefix))

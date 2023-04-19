@@ -2,22 +2,11 @@ package graphql
 
 import (
 	"surasithit/gin-graphql-server/graph"
-	"surasithit/gin-graphql-server/players"
-	"surasithit/gin-graphql-server/teams"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
 )
-
-var resolver *graph.Resolver
-
-func Initialize(playerService players.Service, teamService teams.Service) {
-	resolver = &graph.Resolver{
-		PlayerService: playerService,
-		TeamService:   teamService,
-	}
-}
 
 // Defining the Graphql handler
 func GraphqlHandler(resolver *graph.Resolver) gin.HandlerFunc {

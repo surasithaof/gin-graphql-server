@@ -10,13 +10,13 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	PlayerService players.Service
-	TeamService   teams.Service
+	PlayerStore players.Store
+	TeamStore   teams.Store
 }
 
-func Initialize(playerService players.Service, teamService teams.Service) *Resolver {
+func Initialize(playerStore players.Store, teamStore teams.Store) *Resolver {
 	return &Resolver{
-		PlayerService: playerService,
-		TeamService:   teamService,
+		PlayerStore: playerStore,
+		TeamStore:   teamStore,
 	}
 }

@@ -11,8 +11,8 @@ type Service struct {
 	DB *gorm.DB
 }
 
-func Initialize(db *gorm.DB) Service {
-	return Service{
+func Initialize(db *gorm.DB) Store {
+	return &Service{
 		DB: db,
 	}
 }
