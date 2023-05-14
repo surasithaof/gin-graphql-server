@@ -5,6 +5,8 @@ import (
 	"surasithit/gin-graphql-server/players/model"
 )
 
+//go:generate mockgen -source=./store.go -destination=./mocks/store.go -package=mocks "surasithit/gin-graphql-server" Store
+
 type Store interface {
 	FindAll(ctx context.Context) ([]*model.Player, error)
 	FindByTeamId(ctx context.Context, teamId int) ([]*model.Player, error)
