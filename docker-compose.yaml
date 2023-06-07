@@ -10,3 +10,5 @@ services:
       POSTGRES_USER: "gql_example"
       POSTGRES_PASSWORD: "gql_example"
       POSTGRES_PORT: 5432
+    volumes:
+      - ./data:/var/lib/postgresql/data

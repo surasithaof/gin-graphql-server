@@ -58,3 +58,5 @@ coverage.out
 .env
 .env.*
 !.env.example
+
+data/

@@ -5,7 +5,7 @@ Basic GraphQL Server on [Gin](https://github.com/gin-gonic/gin) framework and [g
 - [x] Use [gqlgen](https://github.com/99designs/gqlgen) to create graphql server
 - [x] Connect to Database (PostgresQL) using [Bun](https://bun.uptrace.dev/) or [GORM](https://gorm.io/) for ORM
 - [x] Database migration
-- [ ] GQL Dataloader to solve N+1 database queries
+- [ ] Dataloader to solve N+1 database queries
 - [ ] Security middleware (JWT, Gocloak)
 
 ---
@@ -22,4 +22,19 @@ brew install just
 
 ```bash
 brew install golang-migrate
+```
+
+## Set up .env file
+
+Create `.env` file and set up environment variables (you can copy from `.env.example`)
+
+## Create and migrate database
+
+You can start postgresql database by run this command `docker-compose up`,
+And do the migration by run `just db-migrate`
+
+## Start service 🚀
+
+```bash
+just run
 ```
