@@ -30,17 +30,32 @@ func NewLoaders(playerStore players.Store, teamStore teams.Store) *Loaders {
 	teamLoader := &TeamLoader{
 		store: teamStore,
 	}
+
+	loaderOptions := []dataloader.Option{
+		dataloader.WithClearCacheOnBatch(),
+		// dataloader.WithWait(10 * time.Millisecond),
+		// dataloader.WithBatchCapacity(100),
+	}
+
 	loaders := &Loaders{
-		PlayerLoader: dataloader.NewBatchedLoader(userLoader.BatchGetPlayers),
-		TeamLoader:   dataloader.NewBatchedLoader(teamLoader.BatchGetTeams),
+		PlayerLoader: dataloader.NewBatchedLoader(
+			userLoader.BatchGetPlayers,
+			loaderOptions...,
+		),
+		TeamLoader: dataloader.NewBatchedLoader(
+			teamLoader.BatchGetTeams,
+			loaderOptions...,
+		),
 	}
 	return loaders
 }
 
 // HTTP Middleware that injects Middleware Loaders into the context
 func Middleware(loaders *Loaders) gin.HandlerFunc {
-	loaders.PlayerLoader.ClearAll()
 	return func(ctx *gin.Context) {
+		loaders.PlayerLoader.ClearAll()
+		loaders.TeamLoader.ClearAll()
+
 		nextCtx := context.WithValue(ctx.Request.Context(), loadersKey, loaders)
 		ctx.Request = ctx.Request.WithContext(nextCtx)
 		ctx.Next()

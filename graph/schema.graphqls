@@ -12,13 +12,6 @@ type Team {
   players: [Player!]!
 }
 
-type Query {
-  team(id: ID!): Team
-  teams: [Team!]!
-  player(id: ID!): Player
-  players: [Player!]!
-}
-
 input TeamInput {
   name: String!
   country: String!
@@ -28,6 +21,13 @@ input PlayerInput {
   name: String!
   rating: Float!
   teamId: ID!
+}
+
+type Query {
+  team(id: ID!): Team
+  teams: [Team!]!
+  player(id: ID!): Player
+  players: [Player!]!
 }
 
 type Mutation {

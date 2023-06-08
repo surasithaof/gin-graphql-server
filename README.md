@@ -5,7 +5,7 @@ Basic GraphQL Server on [Gin](https://github.com/gin-gonic/gin) framework and [g
 - [x] Use [gqlgen](https://github.com/99designs/gqlgen) to create graphql server
 - [x] Connect to Database (PostgresQL) using [Bun](https://bun.uptrace.dev/) or [GORM](https://gorm.io/) for ORM
 - [x] Database migration
-- [x] Dataloader to solve N+1 database queries
+- [ ] Dataloader to solve N+1 database queries
 - [ ] Subsciptions
 - [ ] Security middleware (JWT, Gocloak)
 
