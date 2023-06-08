@@ -9,7 +9,7 @@ import (
 
 type Store interface {
 	FindAll(ctx context.Context) ([]*model.Player, error)
-	FindByIDs(ctx context.Context, IDs []int) ([]*model.Player, error)
+	FindByIDs(ctx context.Context, IDs []string) (map[string]*model.Player, error)
 	FindByTeamId(ctx context.Context, teamId int) ([]*model.Player, error)
 	FindOne(ctx context.Context, id int) (*model.Player, error)
 	Create(ctx context.Context, team *model.Player) (*model.Player, error)

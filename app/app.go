@@ -10,6 +10,7 @@ import (
 	"surasithit/gin-graphql-server/adapters/graphql"
 	"surasithit/gin-graphql-server/adapters/httpserver"
 	"surasithit/gin-graphql-server/graph"
+	"surasithit/gin-graphql-server/graph/loader"
 	"surasithit/gin-graphql-server/players"
 	"surasithit/gin-graphql-server/teams"
 	"syscall"
@@ -51,9 +52,13 @@ func initialApp(router *gin.Engine, config *Config) {
 	database := db.Connect(config.Database)
 	playerStore := players.Initialize(database)
 	teamStore := teams.Initialize(database)
+
+	// Initialize loader
+	ldrs := loader.NewLoaders(playerStore, teamStore)
+
 	gqlResolver := graph.Initialize(playerStore, teamStore)
 
-	rGroup.POST("/query", graphql.GraphqlHandler(gqlResolver))
+	rGroup.POST("/query", loader.Middleware(ldrs), graphql.GraphqlHandler(gqlResolver))
 	rGroup.GET("/", graphql.PlaygroundHandler(config.HttpServer.Prefix))
 }
 

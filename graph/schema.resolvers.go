@@ -7,6 +7,7 @@ package graph
 import (
 	"context"
 	"strconv"
+	"surasithit/gin-graphql-server/graph/loader"
 	"surasithit/gin-graphql-server/graph/model"
 	playerModel "surasithit/gin-graphql-server/players/model"
 	teamModel "surasithit/gin-graphql-server/teams/model"
@@ -145,11 +146,7 @@ func (r *mutationResolver) DeletePlayer(ctx context.Context, id string) (bool, e
 
 // Team is the resolver for the team field.
 func (r *queryResolver) Team(ctx context.Context, id string) (*model.Team, error) {
-	_id, err := strconv.Atoi(id)
-	if err != nil {
-		return nil, err
-	}
-	team, err := r.TeamStore.FindOne(ctx, _id)
+	team, err := loader.LoadTeam(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -205,14 +202,20 @@ func (r *queryResolver) Teams(ctx context.Context) ([]*model.Team, error) {
 
 // Player is the resolver for the player field.
 func (r *queryResolver) Player(ctx context.Context, id string) (*model.Player, error) {
-	_id, err := strconv.Atoi(id)
+	player, err := loader.LoadPlayer(ctx, id)
+
 	if err != nil {
 		return nil, err
 	}
-	player, err := r.PlayerStore.FindOne(ctx, _id)
-	if err != nil {
-		return nil, err
-	}
+
+	// _id, err := strconv.Atoi(id)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// player, err := r.PlayerStore.FindOne(ctx, _id)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	team, err := r.TeamStore.FindOne(ctx, player.TeamID)
 	if err != nil {
 		return nil, err
