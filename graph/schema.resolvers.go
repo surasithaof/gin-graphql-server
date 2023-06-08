@@ -69,6 +69,11 @@ func (r *mutationResolver) CreatePlayer(ctx context.Context, input model.PlayerI
 	if err != nil {
 		return nil, err
 	}
+	team, err := r.TeamStore.FindOne(ctx, teamId)
+	if err != nil {
+		return nil, err
+	}
+
 	newPlayer := &playerModel.Player{
 		Name:   input.Name,
 		Rating: input.Rating,
@@ -82,6 +87,11 @@ func (r *mutationResolver) CreatePlayer(ctx context.Context, input model.PlayerI
 		ID:     strconv.Itoa(player.ID),
 		Name:   player.Name,
 		Rating: player.Rating,
+		Team: &model.Team{
+			ID:      strconv.Itoa(team.ID),
+			Name:    team.Name,
+			Country: team.Country,
+		},
 	}, nil
 }
 
@@ -92,6 +102,10 @@ func (r *mutationResolver) UpdatePlayer(ctx context.Context, id string, input mo
 		return nil, err
 	}
 	teamId, err := strconv.Atoi(input.TeamID)
+	if err != nil {
+		return nil, err
+	}
+	team, err := r.TeamStore.FindOne(ctx, teamId)
 	if err != nil {
 		return nil, err
 	}
@@ -108,6 +122,11 @@ func (r *mutationResolver) UpdatePlayer(ctx context.Context, id string, input mo
 		ID:     strconv.Itoa(player.ID),
 		Name:   player.Name,
 		Rating: player.Rating,
+		Team: &model.Team{
+			ID:      strconv.Itoa(team.ID),
+			Name:    team.Name,
+			Country: team.Country,
+		},
 	}, nil
 }
 
