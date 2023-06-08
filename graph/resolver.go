@@ -1,13 +1,12 @@
 package graph
 
 import (
-	"surasithit/gin-graphql-server/players"
-	"surasithit/gin-graphql-server/teams"
+	"surasithaof/gin-graphql-server/players"
+	"surasithaof/gin-graphql-server/teams"
 )
 
-// This file will not be regenerated automatically.
-//
-// It serves as dependency injection for your app, add any dependencies you require here.
+//go:generate go get github.com/99designs/gqlgen
+//go:generate go run github.com/99designs/gqlgen generate
 
 type Resolver struct {
 	PlayerStore players.Store

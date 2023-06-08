@@ -9,8 +9,8 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
-	playerModel "surasithit/gin-graphql-server/players/model"
-	teamModel "surasithit/gin-graphql-server/teams/model"
+	playerModel "surasithaof/gin-graphql-server/players/model"
+	teamModel "surasithaof/gin-graphql-server/teams/model"
 )
 
 type Config struct {
@@ -28,7 +28,7 @@ func Connect(dbConfig Config) *gorm.DB {
 			SlowThreshold:             time.Second, // Slow SQL threshold
 			LogLevel:                  logger.Info, // Log level
 			IgnoreRecordNotFoundError: true,        // Ignore ErrRecordNotFound error for logger
-			ParameterizedQueries:      true,        // Don't include params in the SQL log
+			ParameterizedQueries:      false,       // Don't include params in the SQL log
 			Colorful:                  true,
 		},
 	)

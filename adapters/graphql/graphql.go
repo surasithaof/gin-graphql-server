@@ -1,7 +1,7 @@
 package graphql
 
 import (
-	"surasithit/gin-graphql-server/graph"
+	"surasithaof/gin-graphql-server/graph"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"

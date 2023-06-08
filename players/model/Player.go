@@ -1,7 +1,7 @@
 package model
 
 import (
-	teamModel "surasithit/gin-graphql-server/teams/model"
+	teamModel "surasithaof/gin-graphql-server/teams/model"
 )
 
 type Player struct {

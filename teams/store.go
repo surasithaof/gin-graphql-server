@@ -2,7 +2,8 @@ package teams
 
 import (
 	"context"
-	"surasithit/gin-graphql-server/teams/model"
+	"strconv"
+	"surasithaof/gin-graphql-server/teams/model"
 
 	"gorm.io/gorm"
 )
@@ -47,13 +48,20 @@ func (s *Service) FindAll(ctx context.Context) ([]*model.Team, error) {
 }
 
 // Find implements Store.
-func (s *Service) FindByIDs(ctx context.Context, IDs []int) ([]*model.Team, error) {
+func (s *Service) FindByIDs(ctx context.Context, IDs []string) (map[string]*model.Team, error) {
 	teams := []*model.Team{}
 	tx := s.DB.WithContext(ctx).Where("id IN ?", IDs).Find(&teams)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
-	return teams, nil
+
+	res := make(map[string]*model.Team)
+	for _, team := range teams {
+		id := strconv.Itoa(team.ID)
+		res[id] = team
+	}
+
+	return res, nil
 }
 
 // FindOne implements Store

@@ -2,7 +2,8 @@ package players
 
 import (
 	"context"
-	"surasithit/gin-graphql-server/players/model"
+	"strconv"
+	"surasithaof/gin-graphql-server/players/model"
 
 	"gorm.io/gorm"
 )
@@ -50,19 +51,37 @@ func (s *Service) FindAll(ctx context.Context) ([]*model.Player, error) {
 }
 
 // FindByIDs implements Store.
-func (s *Service) FindByIDs(ctx context.Context, IDs []int) ([]*model.Player, error) {
+func (s *Service) FindByIDs(ctx context.Context, IDs []string) (map[string]*model.Player, error) {
+
+	// func (s *Service) FindByIDs(ctx context.Context, IDs []string) ([]*model.Player, error) {
 	players := []*model.Player{}
 	tx := s.DB.WithContext(ctx).Where("id IN ?", IDs).Find(&players)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
-	return players, nil
+	res := make(map[string]*model.Player)
+	for _, player := range players {
+		id := strconv.Itoa(player.ID)
+		res[id] = player
+	}
+
+	return res, nil
 }
 
 // FindByTeamId implements Store
 func (s *Service) FindByTeamId(ctx context.Context, teamId int) ([]*model.Player, error) {
 	players := []*model.Player{}
 	tx := s.DB.WithContext(ctx).Where("team_id = ?", teamId).Find(&players)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return players, nil
+}
+
+// FindByTeamIds implements Store.
+func (s *Service) FindByTeamIds(ctx context.Context, teamIds []int) ([]*model.Player, error) {
+	players := []*model.Player{}
+	tx := s.DB.WithContext(ctx).Where("team_id IN ?", teamIds).Find(&players)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
