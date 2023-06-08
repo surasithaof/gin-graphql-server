@@ -2,8 +2,8 @@ package app
 
 import (
 	"log"
-	"surasithit/gin-graphql-server/adapters/db"
-	"surasithit/gin-graphql-server/adapters/httpserver"
+	"surasithaof/gin-graphql-server/adapters/db"
+	"surasithaof/gin-graphql-server/adapters/httpserver"
 
 	"github.com/kelseyhightower/envconfig"
 )

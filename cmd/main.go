@@ -1,7 +1,7 @@
 package main
 
 import (
-	"surasithit/gin-graphql-server/app"
+	"surasithaof/gin-graphql-server/app"
 )
 
 func main() {

@@ -4,9 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"strings"
-	"surasithit/gin-graphql-server/players"
-	"surasithit/gin-graphql-server/players/model"
+	"surasithaof/gin-graphql-server/players"
+	"surasithaof/gin-graphql-server/players/model"
 
 	"github.com/graph-gophers/dataloader"
 )
@@ -23,7 +22,6 @@ func (l *PlayerLoader) BatchGetPlayers(ctx context.Context, keys dataloader.Keys
 		playerIDs[ix] = key.String()
 	}
 	// Actual process
-	log.Printf("BatchGetPlayers(id = %s) \n ", strings.Join(playerIDs, ","))
 	playerByID, err := l.store.FindByIDs(ctx, playerIDs)
 	if err != nil {
 		err := fmt.Errorf("fail get players, %w", err)
