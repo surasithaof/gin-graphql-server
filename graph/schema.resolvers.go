@@ -157,9 +157,9 @@ func (r *queryResolver) Team(ctx context.Context, id string) (*model.Team, error
 	if err != nil {
 		return nil, err
 	}
-	_players := []*model.Player{}
+	teamPlayers := []*model.Player{}
 	for _, p := range players {
-		_players = append(_players, &model.Player{
+		teamPlayers = append(teamPlayers, &model.Player{
 			ID:     strconv.Itoa(p.ID),
 			Name:   p.Name,
 			Rating: p.Rating,
@@ -169,7 +169,7 @@ func (r *queryResolver) Team(ctx context.Context, id string) (*model.Team, error
 		ID:      strconv.Itoa(team.ID),
 		Name:    team.Name,
 		Country: team.Country,
-		Players: _players,
+		Players: teamPlayers,
 	}, nil
 }
 
@@ -185,9 +185,9 @@ func (r *queryResolver) Teams(ctx context.Context) ([]*model.Team, error) {
 		if err != nil {
 			return nil, err
 		}
-		_players := []*model.Player{}
+		teamPlayers := []*model.Player{}
 		for _, p := range players {
-			_players = append(_players, &model.Player{
+			teamPlayers = append(teamPlayers, &model.Player{
 				ID:     strconv.Itoa(p.ID),
 				Name:   p.Name,
 				Rating: p.Rating,
@@ -197,7 +197,7 @@ func (r *queryResolver) Teams(ctx context.Context) ([]*model.Team, error) {
 			ID:      strconv.Itoa(t.ID),
 			Name:    t.Name,
 			Country: t.Country,
-			Players: _players,
+			Players: teamPlayers,
 		})
 	}
 	return teamsRes, nil
