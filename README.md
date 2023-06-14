@@ -7,6 +7,7 @@ Basic GraphQL Server on [Gin](https://github.com/gin-gonic/gin) framework and [g
 - [x] Database migration
 - [ ] Dataloader to solve N+1 database queries
 - [ ] Subsciptions
+- [ ] Unit test
 - [ ] Security middleware (JWT, Gocloak)
 
 ---
