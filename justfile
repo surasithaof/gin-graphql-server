@@ -35,3 +35,15 @@ db-rollback:
     migrate -database ${DB_CONN} -path migrations down
 db-migration-force version:
     migrate -database ${DB_CONN} -path migrations force {{version}}
+
+
+# release:
+#     # autotag --scheme=conventional
+release:
+    git sv next-version
+
+env name:
+	ln -sf .env.{{name}} .env
+
+# https://github.com/pantheon-systems/autotag
+#  go install  github.com/git-chglog/git-chglog/cmd/git-chglog
