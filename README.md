@@ -9,6 +9,7 @@ Basic GraphQL Server on [Gin](https://github.com/gin-gonic/gin) framework and [g
 - [ ] Subsciptions
 - [ ] Unit test
 - [ ] Security middleware (JWT, Gocloak)
+- [ ] Docker support
 
 ---
 
