@@ -4,7 +4,7 @@ set export
 run:
     go run cmd/main.go
 build:
-    go build
+    go build -v -o service ./cmd/main.go
 test:
     go test .../.
 show-cov:
