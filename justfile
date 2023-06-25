@@ -6,7 +6,7 @@ run:
 build:
     go build -v -o service ./cmd/main.go
 test:
-    go test .../.
+    go test ./...
 show-cov:
     go tool cover -html=coverage.out
 generate:
