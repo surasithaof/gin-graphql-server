@@ -3,7 +3,8 @@ package teams
 import (
 	"context"
 	"strconv"
-	"surasithaof/gin-graphql-server/teams/model"
+
+	"github.com/surasithaof/gin-graphql-server/teams/model"
 
 	"gorm.io/gorm"
 )

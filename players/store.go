@@ -3,7 +3,8 @@ package players
 import (
 	"context"
 	"strconv"
-	"surasithaof/gin-graphql-server/players/model"
+
+	"github.com/surasithaof/gin-graphql-server/players/model"
 
 	"gorm.io/gorm"
 )

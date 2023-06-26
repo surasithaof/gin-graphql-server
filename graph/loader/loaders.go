@@ -2,8 +2,9 @@ package loader
 
 import (
 	"context"
-	"surasithaof/gin-graphql-server/players"
-	"surasithaof/gin-graphql-server/teams"
+
+	"github.com/surasithaof/gin-graphql-server/players"
+	"github.com/surasithaof/gin-graphql-server/teams"
 
 	"github.com/gin-gonic/gin"
 	"github.com/graph-gophers/dataloader"

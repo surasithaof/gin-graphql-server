@@ -1,8 +1,8 @@
 package graph
 
 import (
-	"surasithaof/gin-graphql-server/players"
-	"surasithaof/gin-graphql-server/teams"
+	"github.com/surasithaof/gin-graphql-server/players"
+	"github.com/surasithaof/gin-graphql-server/teams"
 )
 
 //go:generate go get github.com/99designs/gqlgen

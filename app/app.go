@@ -6,15 +6,16 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"surasithaof/gin-graphql-server/adapters/db"
-	"surasithaof/gin-graphql-server/adapters/graphql"
-	"surasithaof/gin-graphql-server/adapters/httpserver"
-	"surasithaof/gin-graphql-server/graph"
-	"surasithaof/gin-graphql-server/graph/loader"
-	"surasithaof/gin-graphql-server/players"
-	"surasithaof/gin-graphql-server/teams"
 	"syscall"
 	"time"
+
+	"github.com/surasithaof/gin-graphql-server/adapters/db"
+	"github.com/surasithaof/gin-graphql-server/adapters/graphql"
+	"github.com/surasithaof/gin-graphql-server/adapters/httpserver"
+	"github.com/surasithaof/gin-graphql-server/graph"
+	"github.com/surasithaof/gin-graphql-server/graph/loader"
+	"github.com/surasithaof/gin-graphql-server/players"
+	"github.com/surasithaof/gin-graphql-server/teams"
 
 	"github.com/gin-gonic/gin"
 )

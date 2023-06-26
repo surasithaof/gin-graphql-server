@@ -7,10 +7,11 @@ package graph
 import (
 	"context"
 	"strconv"
-	"surasithaof/gin-graphql-server/graph/loader"
-	"surasithaof/gin-graphql-server/graph/model"
-	playerModel "surasithaof/gin-graphql-server/players/model"
-	teamModel "surasithaof/gin-graphql-server/teams/model"
+
+	"github.com/surasithaof/gin-graphql-server/graph/loader"
+	"github.com/surasithaof/gin-graphql-server/graph/model"
+	playerModel "github.com/surasithaof/gin-graphql-server/players/model"
+	teamModel "github.com/surasithaof/gin-graphql-server/teams/model"
 )
 
 // CreateTeam is the resolver for the createTeam field.

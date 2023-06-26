@@ -7,7 +7,7 @@ package mocks
 import (
 	context "context"
 	reflect "reflect"
-	model "surasithaof/gin-graphql-server/teams/model"
+	model "github.com/surasithaof/gin-graphql-server/teams/model"
 
 	gomock "github.com/golang/mock/gomock"
 )

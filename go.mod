@@ -1,4 +1,4 @@
-module surasithaof/gin-graphql-server
+module github.com/surasithaof/gin-graphql-server
 
 go 1.19
 

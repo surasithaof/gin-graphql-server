@@ -9,8 +9,8 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
-	playerModel "surasithaof/gin-graphql-server/players/model"
-	teamModel "surasithaof/gin-graphql-server/teams/model"
+	playerModel "github.com/surasithaof/gin-graphql-server/players/model"
+	teamModel "github.com/surasithaof/gin-graphql-server/teams/model"
 )
 
 type Config struct {

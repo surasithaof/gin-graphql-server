@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"surasithaof/gin-graphql-server/players"
-	"surasithaof/gin-graphql-server/players/model"
+
+	"github.com/surasithaof/gin-graphql-server/players"
+	"github.com/surasithaof/gin-graphql-server/players/model"
 
 	"github.com/graph-gophers/dataloader"
 )

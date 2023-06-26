@@ -9,7 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"surasithaof/gin-graphql-server/graph/model"
+	"github.com/surasithaof/gin-graphql-server/graph/model"
 	"sync"
 	"sync/atomic"
 
